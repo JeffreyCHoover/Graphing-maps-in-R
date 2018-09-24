@@ -1,0 +1,105 @@
+---
+title: "Mapping"
+author: "Jeff Hoover"
+date: "September 18, 2018"
+output: bookdown::pdf_document2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r echo = TRUE}
+library(stringr)
+library(maps)
+library(mapdata)
+library(ggmap)
+library(knitr)
+
+#get US data
+usa <- map_data("usa")
+
+#graph US
+ggplot() + 
+  geom_polygon(data = usa, aes(x = long, y = lat, group = group)) + 
+  coord_quickmap()
+
+#get states data
+states <- map_data("state")
+
+#Specify cities to be marked
+labs <- data.frame(long = c(-86.78, -80.14, -95.24), 
+                   lat = c(36.16, 26.12, 38.97), 
+                   names = c("Nashville", "Fort Lauderdale", "Lawrence"), 
+                   stringsAsFactors = FALSE)
+
+#graph grayscale US map with 3 cities identified
+ggplot(data = states) + 
+  geom_polygon(aes(x = long, y = lat, group = group), 
+               fill = "gray", color = "black") + 
+  coord_quickmap() +  
+  guides(fill = FALSE) + 
+  geom_point(data = labs, aes(x = long, y = lat), color = "black", size = 3) +
+  geom_point(data = labs, aes(x = long, y = lat), color = "yellow", size = 2)
+
+#getting county data
+counties <- map_data("county")
+
+#Tennessee
+tn_county <- subset(counties, region == "tennessee")
+tn <- subset(states, region == "tennessee")
+
+#creating TN map
+tn_base <- ggplot(data = tn, mapping = aes(x = long, y = lat, group = group)) +
+  coord_quickmap() + 
+  geom_polygon(color = "black", fill = "gray")
+
+tn_base + 
+  theme_nothing()
+
+#creating TN county map
+tn_base + 
+  theme_nothing() + 
+  geom_polygon(data = tn_county, fill = NA, color = "white") + 
+  geom_polygon(color = "black", fill = NA)
+
+#subset of Florida data
+fl <- subset(states, region == "florida")
+fl_county <- subset(counties, region == "florida")
+
+#creating Florida map
+fl_base <- ggplot(data = fl, mapping = aes(x = long, y = lat, group = group)) +
+  coord_quickmap() +  
+  geom_polygon(color = "black", fill = "gray")
+
+fl_base + 
+  theme_nothing()
+
+#creating Florida map with counties
+fl_base + 
+  theme_nothing() + 
+  geom_polygon(data = fl_county, fill = "gray", color = "white") + 
+  geom_polygon(fill = NA, color = "black")
+
+#graph new zealand
+nz <- map_data("nz")
+ggplot(data = nz, aes(long, lat, group = group)) +
+  coord_quickmap() +  
+  geom_polygon(color = "black", fill = "gray")
+
+#get world map data
+map.world <- map_data("world")
+
+#grayscale map
+ggplot(data = map.world, mapping = aes(x = long, y = lat, group = group)) +
+  coord_quickmap() + 
+  geom_polygon(color = "black", fill = "gray")
+
+#color map
+ggplot(data = map.world) + 
+  coord_quickmap() + 
+  geom_polygon(aes(x =long, y=lat, fill=region, group = group), color = "black") +
+  guides(fill = FALSE)
+```
+
+
