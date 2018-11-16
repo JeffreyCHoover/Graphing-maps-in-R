@@ -16,8 +16,6 @@ library(mapdata)
 library(ggmap)
 library(knitr)
 
-#aaa
-
 #get US data
 usa <- map_data("usa")
 
