@@ -16,10 +16,10 @@ library(mapdata)
 library(ggmap)
 library(knitr)
 
-#test
-
 #get US data
 usa <- map_data("usa")
+
+#a
 
 #graph US
 ggplot() + 
