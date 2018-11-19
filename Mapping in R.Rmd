@@ -19,12 +19,6 @@ library(knitr)
 #get US data
 usa <- map_data("usa")
 
-#test2
-
-#test3
-
-#test 4
-
 #graph US
 ggplot() + 
   geom_polygon(data = usa, aes(x = long, y = lat, group = group)) + 
