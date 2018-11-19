@@ -19,7 +19,7 @@ library(knitr)
 #get US data
 usa <- map_data("usa")
 
-#test
+#test2
 
 #graph US
 ggplot() + 
